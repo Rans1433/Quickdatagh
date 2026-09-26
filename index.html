@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick DataGH - MTN Data Bundles</title>
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+  <link rel="stylesheet" href="main.css">
+  
+</head>
+
+<body>
+  
+  <nav>
+    
+    <div class="logo">
+      <h1>Quick<span>Data</span>GH</h1>
+    </div>
+    
+    <div class="nav-btns">
+      
+      <button class="btn hover" onclick="show('home')">Home</button>
+      <button class="btn" onclick="show('orders')">Orders</button>
+      <button class="btn" onclick="show('about')">About Us</button>
+      
+    </div>
+    
+  </nav>
+  
+  <div class="page active" id="home">
+    
+    <div class="text-image">
+      
+      <div class="text">
+        
+         <h1>BUY MTN<br> <span>DATA BUNDLES</span></h1>
+         
+         <h4>fast<span>*</span>simple<span>*</span>affordable</h4>
+         
+         <p>Buy your MTN data bundles instantly and stay connected everywhere</p>
+         
+        
+      </div>
+      
+      
+    </div>
+    
+    <div class="cards-page">
+      
+      <span>_________________ MTN DATA BUNDLES __________________</span>
+      
+      <div class="cards" id="bundle-cards"></div>
+      
+    </div>
+    
+  </div>
+  
+  
+  
+  <div class="page" id="paymentpage">
+   <div class="backbtn">
+    <button onclick="show('home')">back</button>
+    </div>
+   
+    <div class="paymentpage">
+    
+    
+    <div class="input-box">
+      <label>Recipient number</label><br>
+      <input type="tel" id="number" placeholder="+233 00 000 0000" autofocus>
+    </div>
+    
+    <div class="input-box">
+      <label>Email</label><br>
+      <input type="email" id="email" placeholder="kay@gmail.com">
+      
+    </div>
+    
+    <div class="price-amount">
+      
+      <h3>Bundle Size:   <span id="cardamount"></span></h3>
+      
+      <h3>price:   GHS  <span id="cardprice"></span>.00</h3>
+      
+    </div>
+    
+    <div class="btn">
+      <button onclick="buybundle()">Process Payment</button>
+    </div>
+    
+    
+    </div>
+    
+  
+  </div>
+  
+    
+  <div class="page" id="orders">
+    
+    <h1>------ ORDERS ------</h1>
+    
+    <div class="orders-container" id="ordersdisplayed">
+      
+      
+    </div>
+    
+  </div>
+
+  <div class="page" id="about">
+
+  <section class="about-section">
+
+  <h2>About Us</h2>
+
+  <p>
+    Quick DataGH is a Ghana-based service that makes buying MTN data
+    bundles fast, simple, and affordable. We built this platform so
+    customers can top up their own line or send data to a friend or
+    family member in just a few clicks — no long queues, no waiting
+    on agents.
+  </p>
+
+  <p>
+    Every order is processed securely through Paystack, so you can
+    pay with confidence. Once payment is confirmed, your data bundle
+    is sent straight to the recipient's number.
+  </p>
+
+  <p>
+    We're committed to reliable service and quick support. If anything
+    goes wrong with an order, reach out and we'll sort it out.
+  </p>
+
+  <div class="about-contact">
+    <h3>Quick DataGH</h3>
+    <p><strong>Ghana</strong></p>
+
+    <p>
+      Email:
+      <a href="mailto:ransk143314@gmail.com">
+        ransk143314@gmail.com
+      </a>
+    </p>
+
+    <p>
+      <a
+        href="https://wa.me/233538721561"
+        target="_blank"
+        class="whatsapp-link"
+      >
+        Chat with us on WhatsApp
+      </a>
+    </p>
+  </div>
+
+</section>
+</div>
+    <!-- FOOTER -->
+  <footer class="site-footer">
+
+    <div class="footer-container">
+
+      <div class="footer-brand">
+        <h2>Quick<span>Data</span>GH</h2>
+        <p>
+          Fast, simple and affordable MTN data bundles.
+          Stay connected wherever you go.
+        </p>
+      </div>
+      
+<div class="footer-links">
+  <h3>Quick Links</h3>
+
+  <button onclick="show('home')">Home</button>
+  <button onclick="show('orders')">Orders</button>
+  <button onclick="show('about')">About Us</button>
+
+  <a href="Terms.html">Terms of Service</a>
+  <a href="Privacy.html">Privacy Policy</a>
+</div>
+
+
+<div class="footer-contact">
+  <h3>Contact Us</h3>
+
+  <p>
+    Email:
+    <a href="mailto:ransk143314@gmail.com">
+      ransk143314@gmail.com
+    </a>
+    or 
+    <p>
+      <a
+        href="https://wa.me/233538721561"
+        target="_blank"
+        class="whatsapp-link"
+      >
+        Contact us on WhatsApp
+      </a>
+  </p>
+
+  <p class="footer-location">Ghana</p>
+</div>
+
+    </div>
+
+
+    <div class="footer-line"></div>
+
+
+    <div class="footer-bottom">
+      <p>© 2026 QuickDataGH. All rights reserved.</p>
+
+      <p>Fast <span>*</span> Simple <span>*</span> Affordable</p>
+    </div>
+
+  </footer>
+
+  
+  
+  <script src="index.js"></script>
+</body>
+
+</html>
