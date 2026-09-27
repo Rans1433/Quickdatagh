@@ -63,7 +63,7 @@ function displaycards() {
 
         <p>---------------</p>
 
-        <h2>GHS ${card.price}.00</h2>
+        <h2>GHS ${card.price}</h2>
 
         <button
           onclick="show('paymentpage'); selectcard(${card.id})">
