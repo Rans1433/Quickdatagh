@@ -275,11 +275,13 @@ if (
     result.data.status ||
     result.data.order_status;
 
-
-  const newProcessingMethod =
-    result.data.processingMethod ||
-    result.data.processing_method ||
-    result.data.processingMethodName;
+const newProcessingMethod =
+  result.data.processingMethod ||
+  result.data.processing_method ||
+  result.data.processingMethodName ||
+  result.data.method ||
+  result.data.queue ||
+  result.data.lane;
 
 
   console.log(
