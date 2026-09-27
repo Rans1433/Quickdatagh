@@ -131,7 +131,6 @@ const orders =
 // ==========================================
 // FORMAT STATUS
 // ==========================================
-
 function formatStatus(status) {
 
   if (!status) {
@@ -139,36 +138,40 @@ function formatStatus(status) {
   }
 
   const cleanStatus =
-    status.toLowerCase();
+    String(status).toLowerCase().trim();
 
   if (
-    cleanStatus === "pending" ||
-    cleanStatus === "waiting" ||
-    cleanStatus === "processing"
+    cleanStatus.includes("pending") ||
+    cleanStatus.includes("waiting") ||
+    cleanStatus.includes("processing") ||
+    cleanStatus.includes("queue")
   ) {
     return "Processing";
   }
 
-  if (cleanStatus === "completed") {
+  if (
+    cleanStatus.includes("completed") ||
+    cleanStatus.includes("complete") ||
+    cleanStatus.includes("success")
+  ) {
     return "Completed";
   }
 
-  if (cleanStatus === "failed") {
+  if (
+    cleanStatus.includes("failed") ||
+    cleanStatus.includes("failure")
+  ) {
     return "Failed";
   }
 
-  if (cleanStatus === "refunded") {
+  if (
+    cleanStatus.includes("refund")
+  ) {
     return "Refunded";
   }
 
   return status;
 }
-
-
-// ==========================================
-// DISPLAY ORDERS
-// ==========================================
-
 function displayorder() {
 
   orderdisplay.innerHTML = "";
@@ -219,12 +222,20 @@ displayorder();
 
 
 // ==========================================
+
+// ==========================================
 // UPDATE ONE ORDER STATUS
 // ==========================================
 
 async function updateOrderStatus(order) {
 
   if (!order.dataMartReference) {
+
+    console.log(
+      "No DataMart reference for order:",
+      order
+    );
+
     return;
   }
 
@@ -254,7 +265,15 @@ async function updateOrderStatus(order) {
     ) {
 
       const newStatus =
-        result.data.orderStatus;
+        result.data.orderStatus ||
+        result.data.status ||
+        result.data.order_status;
+
+
+      console.log(
+        "Actual DataMart status:",
+        newStatus
+      );
 
 
       if (newStatus) {
@@ -262,17 +281,18 @@ async function updateOrderStatus(order) {
         order.status =
           newStatus;
 
+
         localStorage.setItem(
           "orders",
           JSON.stringify(orders)
         );
+
 
         displayorder();
 
       }
 
     }
-
 
   } catch (error) {
 
@@ -302,19 +322,17 @@ async function updateAllOrderStatuses() {
 
 
 // Check immediately
+
 updateAllOrderStatuses();
 
 
 // Check every 15 seconds
+
 setInterval(
   updateAllOrderStatuses,
   15000
 );
-
-
-// ==========================================
-// BUY BUNDLE
-// ==========================================
+// UPDATE ONE ORDER STATUS
 
 function buybundle() {
 
@@ -514,10 +532,10 @@ function buybundle() {
 
 
             displayorder();
-
-
             // Immediately check DataMart
 
+
+            
             updateOrderStatus(
               neworder
             );
