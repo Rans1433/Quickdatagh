@@ -177,11 +177,18 @@ function displayorder() {
   orderdisplay.innerHTML = "";
 
   orders.forEach(order => {
+const method = String(
+  order.processingMethod || ""
+).toLowerCase().trim();
 
-    const queueName =
-      order.processingMethod === "fast"
-        ? "Fast Lane"
-        : "Standard Queue";
+let queueName = "Standard Queue";
+
+if (
+  method.includes("fast") ||
+  method.includes("priority")
+) {
+  queueName = "Fast Lane";
+}
 
 
     orderdisplay.innerHTML += `
