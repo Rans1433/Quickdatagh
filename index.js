@@ -1,3 +1,7 @@
+
+const BACKEND_URL =
+  "https://freedatagh-backend.onrender.com";
+
 const mtncards = [
   
   {
@@ -110,33 +114,101 @@ const orderdisplay = document.getElementById("ordersdisplayed")
 const orders = JSON.parse(localStorage.getItem("orders")) || []
 
 function displayorder() {
-  
-  orderdisplay.innerHTML = ''
-  
-  orders.forEach((order, index) => {
-    
-    orderdisplay.innerHTML += `
-   
-   <div class="order">
-   
-   <h2>MTN: ${order.amount}</h2>
-   
-   <p>Recipient: ${order.num}</p>
-   
-   <p>Price:  GHS ${order.price}.00</p>
-   
-   <p>Data: ${order.date}</p>
-   
-   <p class="status">Status: ${order.status}</p>
-   
-   </div>
-   
-   `
-  })
-  
-}
 
+  orderdisplay.innerHTML = '';
+
+  orders.forEach((order, index) => {
+
+    orderdisplay.innerHTML += `
+
+      <div class="order">
+
+        <h2>MTN: ${order.amount}</h2>
+
+        <p>Recipient: ${order.num}</p>
+
+        <p>Price: GHS ${order.price}.00</p>
+
+        <p>Data: ${order.date}</p>
+
+        <p class="status">
+          Status: ${order.status}
+        </p>
+
+
+        <div class="my-queue">
+
+          <span>
+            ${order.queueLane || "Standard Queue"}
+          </span>
+
+          <strong>
+            ${
+              order.queueNumber
+                ? "#" + order.queueNumber
+                : "Checking..."
+            }
+          </strong>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
 displayorder()
+
+async function updateOrderQueue(order) {
+
+  try {
+
+    const response = await fetch(
+      `${BACKEND_URL}/order-queue/${encodeURIComponent(order.reference)}`
+    );
+
+    const result = await response.json();
+
+
+    if (
+      !result.success ||
+      !result.found
+    ) {
+      return;
+    }
+
+
+    order.queueLane =
+      result.order.lane ||
+      "Standard Queue";
+
+
+    order.queueNumber =
+      result.order.queueNumber ||
+      null;
+
+
+    localStorage.setItem(
+      "orders",
+      JSON.stringify(orders)
+    );
+
+
+    displayorder();
+
+
+  } catch (error) {
+
+    console.error(
+      "Order queue error:",
+      error
+    );
+
+  }
+
+}
 
 
 
@@ -209,25 +281,29 @@ function buybundle() {
           
           const now = new Date();
           
-          const neworder = {
-            amount: selected.amount,
-            price: selected.price,
-            num: num,
-            date: now.toLocaleDateString(),
-            status: "paid",
-            reference: transaction.reference
-          };
-          
+      const neworder = {
+  amount: selected.amount,
+  price: selected.price,
+  num: num,
+  date: now.toLocaleDateString(),
+  status: "paid",
+  reference: transaction.reference,
+
+  queueLane: "Standard Queue",
+  queueNumber: null
+};    
           orders.push(neworder);
-          
-          localStorage.setItem(
-            "orders",
-            JSON.stringify(orders)
-          );
-          
-          show("orders");
-          
-          displayorder();
+
+localStorage.setItem(
+  "orders",
+  JSON.stringify(orders)
+);
+
+show("orders");
+
+displayorder();
+
+updateOrderQueue(neworder);
           
           alert(
             "Payment verified successfully!\n" +
@@ -281,3 +357,79 @@ btns.forEach(btn => {
     
   })
 })
+
+
+// ==========================================
+// DELIVERY QUEUE
+// =========================================
+
+// Load queue numbers for the main page
+async function loadDeliveryQueue() {
+
+  try {
+
+    const response = await fetch(
+      `${BACKEND_URL}/delivery-queue`
+    );
+
+    const result = await response.json();
+
+    if (!result.success) {
+      return;
+    }
+
+    const queue = result.queue || {};
+
+    const fastLane =
+      document.getElementById("fastLane");
+
+    const standardQueue =
+      document.getElementById("standardQueue");
+
+    const checkingNow =
+      document.getElementById("checkingNow");
+
+
+    if (fastLane) {
+      fastLane.textContent =
+        queue.fastLane
+          ? "#" + queue.fastLane
+          : "—";
+    }
+
+
+    if (standardQueue) {
+      standardQueue.textContent =
+        queue.standardQueue
+          ? "#" + queue.standardQueue
+          : "—";
+    }
+
+
+    if (checkingNow) {
+      checkingNow.textContent =
+        queue.checkingNow
+          ? "#" + queue.checkingNow
+          : "—";
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Delivery queue error:",
+      error
+    );
+
+  }
+
+}
+
+
+// Refresh queue every 15 seconds
+loadDeliveryQueue();
+
+setInterval(
+  loadDeliveryQueue,
+  15000
+);
