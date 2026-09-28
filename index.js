@@ -437,7 +437,7 @@ function buybundle() {
 
 
   const amountinpessewas =
-    selected.price * 100;
+    Math.round(selected.price * 100);
 
 
   const paystack =
