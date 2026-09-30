@@ -410,15 +410,6 @@ function buybundle() {
   }
 
 
-  const confirmpay =
-    confirm(
-      "are you sure to buy this card"
-    );
-
-
-  if (!confirmpay) {
-    return;
-  }
 
 
   console.log(
