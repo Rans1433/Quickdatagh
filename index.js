@@ -448,7 +448,7 @@ function buybundle() {
 
     currency:
       "GHS",
-    subaccountCode: "ACCT_hmv1olkttk3hu9v",
+
 
     phone:
       num,
